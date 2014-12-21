@@ -7,12 +7,13 @@
 ############################################################
 
 FILE="$1"
+KEY=$(echo $UPLOAD_KEY)
 
 # Show a message asking for a file name
 NAME="$(osascript -e 'Tell application "System Events" to display dialog "Enter the image name (optional):" default answer ""' -e 'text returned of result' 2>/dev/null)"
 
 if [ $FILE != "" ]; then
-	curl -F image=@"$FILE" -F name="$NAME" -F key="$(echo $UPLOAD_KEY)" http://lunamoonfang.nl/s/upload | pbcopy
+	curl -F "image=@$FILE;name=$NAME;key=$KEY" http://lunamoonfang.nl/s/upload | pbcopy
 else
 	echo "Usage: uploadPicture.sh <filename>"
 fi
