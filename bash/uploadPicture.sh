@@ -7,7 +7,7 @@
 ############################################################
 
 FILE="$1"
-KEY="$(cat /Users/luna/.uploadkey)"
+KEY="$(cat $HOME/.uploadkey)"
 
 # Show a message asking for a file name
 NAME="$(osascript -e 'Tell application "System Events" to display dialog "Enter the image name (optional):" default answer ""' -e 'text returned of result' 2>/dev/null)"
