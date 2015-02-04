@@ -1,9 +1,9 @@
 # Edited by Thomas Wiringa (DuckThom)
 #
 # NOTE! disabled short name now shows the following:
-# <channel> (First letter of the name of the server)
-# example: 2.#trivialand (F) // for Freenode
-#          3.#monstercat (T) // for Twitch
+# (First letter of the name of the server) <channel>
+# example: 2.(F) #trivialand // for Freenode
+#          3.(T) #monstercat // for Twitch
 #
 # Copyright (C) 2008-2014 Sebastien Helleu <flashcode@flashtux.org>
 # Copyright (C) 2011-2013 Nils G <weechatter@arcor.de>
@@ -971,7 +971,7 @@ sub build_buffers
         $buffer->{"plugin_name"} = weechat::infolist_string($infolist, "plugin_name");
         $buffer->{"name"} = weechat::infolist_string($infolist, "name");
         $buffer->{"name"} =~ s/\.[\d\D]*//g;
-	$buffer->{"name"} = weechat::infolist_string($infolist, "short_name") . " (" . uc(substr($buffer->{"name"}, 0, 1)) . ")";
+	$buffer->{"name"} = "(" . uc(substr($buffer->{"name"}, 0, 1)) . ") " . weechat::infolist_string($infolist, "short_name");
 	$buffer->{"short_name"} = weechat::infolist_string($infolist, "short_name");
         $buffer->{"full_name"} = $buffer->{"plugin_name"}.".".$buffer->{"name"};
         $buffer->{"type"} = weechat::buffer_get_string($buffer->{"pointer"}, "localvar_type");
