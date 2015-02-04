@@ -1,7 +1,9 @@
 # Edited by Thomas Wiringa (DuckThom)
 #
 # NOTE! disabled short name now shows the following:
-# <channel> (First name of server)
+# <channel> (First letter of the name of the server)
+# example: 2.#trivialand (F) // for Freenode
+#          3.#monstercat (T) // for Twitch
 #
 # Copyright (C) 2008-2014 Sebastien Helleu <flashcode@flashtux.org>
 # Copyright (C) 2011-2013 Nils G <weechatter@arcor.de>
