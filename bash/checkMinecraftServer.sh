@@ -21,7 +21,7 @@ else
 	cd /home/luna/Downloads/mc1.8.3/
 
 	# Send a notification to myself via Telegram
-	echo 'msg $USERID "Minecraft Server crash/shutdown! \nRestarting server at $(date)"' | netcat localhost 1337
+	echo "msg $USERID \"Minecraft Server crash/shutdown! \nRestarting server at $(date)\"" | netcat localhost 1337
 
 	# Log this event in a logfile
 	echo "Oops! It looks like the server has crashed around [$(date)]." >> server_watchdog.log
