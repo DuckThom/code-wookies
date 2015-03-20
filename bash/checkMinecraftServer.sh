@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Get my userid from the config file
+USERID=$(cat /etc/telegram-cli/userid)
+
 # Echo the current date/time to the screen
 echo "V----------[$(date)]----------V"
 echo "Checking Minecraft Server status..."
@@ -16,6 +19,9 @@ else
 
 	# Change the active directory to the MC server location
 	cd /home/luna/Downloads/mc1.8.3/
+
+	# Send a notification to myself via Telegram
+	echo 'msg $USERID "Minecraft Server crash/shutdown! \nRestarting server at $(date)"' | netcat localhost 1337
 
 	# Log this event in a logfile
 	echo "Oops! It looks like the server has crashed around [$(date)]." >> server_watchdog.log
