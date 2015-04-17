@@ -29,7 +29,7 @@ else
 	echo "------------------------------------------------------------" >> server_watchdog.log
 
 	# Create a screen session with the name minecraft
-	screen -dmS minecraft java -Xmx2G -Xms2G -jar minecraft_server.1.8.3.jar
+	screen -dmS minecraft java -Xmx2G -Xms2G -jar minecraft_server.1.8.4.jar
 fi
 
 # Check again in 30 seconds
