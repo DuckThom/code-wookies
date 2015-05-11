@@ -12,6 +12,7 @@ import threading
 from bs4 import BeautifulSoup
 
 running = True
+restart = True
 
 HOME = os.path.expanduser("~")
 
@@ -20,6 +21,10 @@ cp = ConfigParser.RawConfigParser()
 # The actual bot code
 def startBot():
 	global running
+	global restart
+
+	running = True
+	restart = False
 
 	cp.read(HOME + "/.lunabot/config")
 	
@@ -90,6 +95,7 @@ def startBot():
 		# Read the input from the socket
 		read_line = s.recv(1024)
 		message = ''		
+		output = 1		
 
 		# This will match if someone tries to execute a command
 		if (re.search(sCHAN + " :!", read_line)):
@@ -98,14 +104,17 @@ def startBot():
 
 			print "User ", user, " issued command: ", command
 
-			output 	= 1
 			message = user + ": "
 
 			if command in lCOMMANDS:
 		
 				if command == "kill" and user in lADMINS and bKILL == "1":
 					running = False # Stop the infinite loop
-				
+				elif command == "reload" and user in lADMINS:
+					restart = True
+					running = False
+					print "Restarting..."
+
 				if dCOMMANDTYPES[command] == "silent":
 					output = 0
 				elif dCOMMANDTYPES[command] == "system":
@@ -129,14 +138,16 @@ def startBot():
 			s.send("PONG :" + server)
 			print "PONG ", server
 
-		# This will just print the chat
+		# try to the the title of the url
 		else:
 			try:
 				chat_message = read_line.split(sCHAN + " :", 1)[1].replace("\r\n", "")
 
 				if re.match("http", chat_message):
-					url = chat_message.split(" ", 1)[0]
-					message = BeautifulSoup(urllib.urlopen(url)).title.string
+					url     = chat_message.split(" ", 1)[0]
+					message += read_line.split("!~", 1)[0].replace(":", "") + ": "
+					message += BeautifulSoup(urllib.urlopen(url)).title.string
+			
 			except Exception:
 				pass		
 
@@ -147,7 +158,7 @@ def startBot():
 
 	# END WHILE
 
-	print "Valid kill command issued, goodbye cruel world! ;_;"
+	print "Bot stopped :("
 
 	# Disconnect from the IRC server
 	s.send("QUIT :Going back to the moon! \n")
@@ -207,21 +218,23 @@ try:
 		createConfig()
 		exit()
 	
-	s = socket.create_connection(("irc.freenode.net", 6667))
+	while restart:
+		s = socket.create_connection(("irc.freenode.net", 6667))
 	
-	bot = threading.Thread(target=startBot)
-	userInput = threading.Thread(target=userInput)	
+		bot = threading.Thread(target=startBot)
+		userInput = threading.Thread(target=userInput)	
 
-	bot.daemon = True
-	userInput.daemon = True
+		bot.daemon = True
+		userInput.daemon = True
 		
-	bot.start()
+		bot.start()
 
-	# While the bot is running, wait here...
-	bot.join()
+		# While the bot is running, wait here...
+		bot.join()
 	
-	# Close the connection	
-	s.close()
+		# Close the connection	
+		s.close()
+	# END WHILE
 	sys.exit()
 
 	print "Connection closed"
