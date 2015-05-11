@@ -9,6 +9,7 @@ import ConfigParser
 import ast
 import urllib
 import threading
+import json
 from bs4 import BeautifulSoup
 
 running = True
@@ -17,7 +18,7 @@ restart = True
 HOME = os.path.expanduser("~")
 
 cp = ConfigParser.RawConfigParser()
-				
+			
 # The actual bot code
 def startBot():
 	global running
@@ -94,12 +95,17 @@ def startBot():
 	while running:
 		# Read the input from the socket
 		read_line = s.recv(1024)
-		message = ''		
+		message = argument = ''		
 		output = 1		
 
 		# This will match if someone tries to execute a command
 		if (re.search(sCHAN + " :!", read_line)):
 			command = read_line.split(sCHAN + " :!", 1)[1].replace("\r\n", "")	
+			
+			if re.search(" ", command):
+				argument = command.split(" ")[1]
+				command = command.split(" ", 1)[0]
+	
 			user 	= read_line.split("!~", 1)[0].replace(":", "")			
 
 			print "User ", user, " issued command: ", command
@@ -124,7 +130,21 @@ def startBot():
 					message += os.popen(dSYSTEMCOMMANDS[command]).read()
 				elif dCOMMANDTYPES[command] == "text":
 					message += dMESSAGES[command]				
+				elif dCOMMANDTYPES[command] == "internal":
+					if command == "weather":
+						if argument is not "":
+							city = argument.replace(" ", "%20")
+							
+							print "City:", city
 
+							response = urllib.urlopen('http://api.openweathermap.org/data/2.5/weather?q=' + city)
+							
+							print "Response:", response
+							weatherData = json.load(response) 
+
+							message += "City: " + city + " - Temperature: " + str(weatherData["main"]["temp"] / 10) + "C - Weather: " + weatherData["weather"][0]["main"]
+						else:
+							message += "Incorrect syntax - !weather <city>"
 			else:
 				if bINVALIDOUTPUT == "1":
 					message += "Sorry, that's an invalid command"
