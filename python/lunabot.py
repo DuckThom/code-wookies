@@ -136,13 +136,15 @@ def startBot():
 							city = argument.replace(" ", "%20")
 							
 							print "City:", city
-
-							response = urllib.urlopen('http://api.openweathermap.org/data/2.5/weather?q=' + city)
 							
-							print "Response:", response
-							weatherData = json.load(response) 
+							try:
+								response = urllib.urlopen('http://api.openweathermap.org/data/2.5/weather?q=' + city)
+							
+								weatherData = json.load(response) 
 
-							message += "City: " + city + " - Temperature: " + str(weatherData["main"]["temp"] / 10) + "C - Weather: " + weatherData["weather"][0]["main"]
+								message += "City: " + city + " - Temperature: " + str(round(weatherData["main"]["temp"], 1) - 272.15) + " C - Weather: " + weatherData["weather"][0]["main"]
+							except:
+								message += "Error retrieving weather data, please try again later"
 						else:
 							message += "Incorrect syntax - !weather <city>"
 			else:
@@ -167,6 +169,8 @@ def startBot():
 					url     = chat_message.split(" ", 1)[0]
 					message += read_line.split("!~", 1)[0].replace(":", "") + ": "
 					message += BeautifulSoup(urllib.urlopen(url)).title.string
+				elif chat_message == sNICK + "!":
+					message = read_line.split("!~", 1)[0].replace(":", "") + "!"
 			
 			except Exception:
 				pass		
