@@ -16,6 +16,9 @@ $config 	= parse_ini_file('bot-config.ini');
 $key 		= $config["key"];
 $offset 	= 0;
 
+// OpenWeatherMap API Key
+define('OWM_KEY', $config["owm_key"]);
+
 // Put the Command class in a var to suppress a PHP Notice
 $classCommand = new Command();
 
@@ -61,7 +64,7 @@ while($running)
 		$command 	  = $message->getCommand();
 
 		// Check if the command is valid, does it do anything?
-		if (Command::isValid($command) && $message->getFirstName() !== "Luna Bot")
+		if (Command::isValid($command, $message->getTarget()) && $message->getFirstName() !== "Luna Bot")
 		{
 			// If it does, does the method for the command exist?
 			if (method_exists($classCommand, $command))
@@ -73,6 +76,8 @@ while($running)
 				if ($text !== false)
 					Chat::sendMessage($text, $message->getChatId(), $key);
 
+				// Echo the command to the console for debugging
+				echo "Command '" . $command . "' with arguments '" . $message->getArgument() . "' issued by '" . $message->getFirstName() . "'\r\n";
 			} else
 			{
 				// Log command for debugging

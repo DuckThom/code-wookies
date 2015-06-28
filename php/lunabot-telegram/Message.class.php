@@ -83,10 +83,19 @@ class Message {
 	public function getCommand()
 	{
 		// Split the message in to [command] - [arguments]
-		$array = preg_replace("/\//", "", explode(" ", $this->chat_message));
+		$command = preg_replace("/\//", "", explode(" ", $this->chat_message));
+
+		if (strrpos($command[0], "@") !== false)
+		{
+			// Split the command and the target
+			$command = explode("@", $command[0]);
+
+			// Return the command without the target
+			return (isset($command[0]) ? $command[0] : false);
+		}
 		
 		// Return the command or false
-		return (isset($array[0]) ? $array[0] : false);
+		return (isset($command[0]) ? $command[0] : false);
 	}
 
 	/**
@@ -99,5 +108,23 @@ class Message {
 
 		// Return the arguments or an empty string
 		return (isset($array[1]) ? $array[1] : '');
+	}
+
+	public function getTarget()
+	{
+		// Split the message in to [command] - [arguments]
+		$command = preg_replace("/\//", "", explode(" ", $this->chat_message));
+
+		if (strrpos($command[0], "@") !== false)
+		{
+			// Split the command and the target
+			$botName = explode("@", $command[0]);
+
+			// Return the target without the command
+			return (isset($botName[1]) ? $botName[1] : false);
+		}
+		
+		// Return false because no target was found
+		return false;
 	}
 }

@@ -14,13 +14,18 @@ class Command {
 	 * @var string
 	 * @return boolean
 	 */
-	public function isValid($command)
+	public function isValid($command, $target)
 	{
 		$commandList = ["help", "fortune", "boe", "weather"];
+		$command 	 = preg_replace("/\//", "", $command);
+		$validTarget = false;
 
-		$command = preg_replace("/\//", "", $command);
-
-		if (in_array($command, $commandList))
+		// Is this bot the target?
+		if ($target === "LunaBot" || $target === false)
+			$validTarget = true;
+		
+		// Is the command in the known command list and is this bot the target?
+		if (in_array($command, $commandList) && $validTarget === true)
 			return true;
 		else
 			return false;
@@ -33,7 +38,13 @@ class Command {
 	 */
 	public function help()
 	{
-		return "Help has been dispensed!";
+		$text = "Possible commands: \r\n" .
+				"/help  -  Display this message \r\n" .
+				"/weather <location>  -  Get the weather for that location\r\n" .
+				"/boe  -  Scare me \r\n" . 
+				"/fortune  -  Get a fortune cookie";
+		
+		return $text;
 	}
 
 	/**
@@ -83,7 +94,7 @@ class Command {
 			$location = preg_replace("/\s/", "%20", $location);
 
 			// Create the url
-			$url 	= "http://api.openweathermap.org/data/2.5/weather?q=" . $location;
+			$url 	= "http://api.openweathermap.org/data/2.5/weather?q=" . $location . "&APPID=" . OWM_KEY;
 			
 			// Initialize curl
 			$ch 	= curl_init();
@@ -111,7 +122,7 @@ class Command {
 				{
 					return "City: " . ucfirst($location) . "\r\n" .
 						   "Temperature: " . round($input["main"]["temp"] - 272.15, 1) . " °C \r\n" .
-						   "Weather: " . $input["weather"][0]["main"];
+						   "Weather: " . $input["weather"][0]["main"] . " " . Emoji::getOWMEmoji($input["weather"][0]["icon"]);
 				}
 			} else
 				return "Error retrieving weather data, please try again later";
