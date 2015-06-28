@@ -16,7 +16,7 @@ class Command {
 	 */
 	public function isValid($command, $target)
 	{
-		$commandList = ["help", "fortune", "boe", "weather"];
+		$commandList = ["help", "fortune", "boe", "weather", "laugh"];
 		$command 	 = preg_replace("/\//", "", $command);
 		$validTarget = false;
 
@@ -127,6 +127,36 @@ class Command {
 			} else
 				return "Error retrieving weather data, please try again later";
 		}
+	}
+
+	/**
+	 * Return a random laugh
+	 *
+	 * @return string
+	 */
+	public function laugh()
+	{
+		$laughList = [
+				"HAHAHAHAHAHAHAHAHAHAHAHAHAHA",
+				"mwaahaAHAHAAHHAHAAHHAHAHA",
+				"hehe",
+				"hahahahaha",
+				"hahahaAHAHAHA",
+				"TeeHee",
+				"kek",
+				"topkek",
+				"lol",
+				"lawl",
+				"haha",
+				"huehuehue",
+				"lololololol",
+				"trolololol",
+				"hihihihihi",
+				"lmao",
+				"rofl"
+			];
+
+		return $laughList[array_rand($laughList)];
 	}
 
 }
