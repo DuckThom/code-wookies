@@ -16,7 +16,7 @@ class Command {
 	 */
 	public function isValid($command, $target)
 	{
-		$commandList = ["help", "fortune", "boe", "weather", "laugh"];
+		$commandList = ["help", "fortune", "boe", "weather", "laugh", "doge"];
 		$command 	 = preg_replace("/\//", "", $command);
 		$validTarget = false;
 
@@ -44,7 +44,10 @@ class Command {
 				"/boe  -  Scare me \r\n" . 
 				"/fortune  -  Get a fortune cookie";
 		
-		return $text;
+		return [
+				"type" => "message",
+				"text" => $text
+			];
 	}
 
 	/**
@@ -64,9 +67,15 @@ class Command {
 
 		// If the return code is 0 (successful) return the fortune
 		if ($code === 0)
-			return $output;
+			return [
+					"type" 		=> "message",
+					"text" 		=> $output
+				];
 		else
-			return 'No fortunes found :(';
+			return [
+					"type" 		=> "message",
+					"text" 		=> "No fortunes found :("
+				];
 	}
 
 	/**
@@ -76,7 +85,10 @@ class Command {
 	 */
 	public function boe()
 	{
-		return "Schrik!";
+		return [
+				"type" 		=> "message",
+				"text" 		=> "Schrik!"
+			];
 	}
 
 	/**
@@ -88,7 +100,10 @@ class Command {
 	public function weather($location = '')
 	{
 		if ($location === '')
-			return "Usage: /weather [location]";
+			return [
+						"type" => "message",
+						"text" => "Usage: /weather <location>"
+					];
 		else
 		{
 			$location = preg_replace("/\s/", "%20", $location);
@@ -112,20 +127,34 @@ class Command {
 			// Parse the json returned by the Telegram API
 			$input 	= json_decode($input, true);
 
+			if (DEBUG)
+				var_dump($input);
+
 			// Has the location been found by the OpenWeatherMap API
 			if (isset($input["cod"]))
 			{
 				if ($input["cod"] !== 200)
 				{
-					return "No weather data found for this location: " . ucfirst($location);
+					return [
+							"type" => "message",
+							"text" => "No weather data found for this location: " . ucfirst($location)
+						];
 				} else
 				{
-					return "City: " . ucfirst($location) . "\r\n" .
-						   "Temperature: " . round($input["main"]["temp"] - 272.15, 1) . " °C \r\n" .
-						   "Weather: " . $input["weather"][0]["main"] . " " . Emoji::getOWMEmoji($input["weather"][0]["icon"]);
+					$text = "City: " . ucfirst($location) . "\r\n" .
+						    "Temperature: " . round($input["main"]["temp"] - 272.15, 1) . " °C \r\n" .
+						    "Weather: " . $input["weather"][0]["main"] . " " . Emoji::getOWMEmoji(rtrim($input["weather"][0]["icon"], "nd"));
+
+					return [
+							"type" => "message",
+							"text" => $text
+						];
 				}
 			} else
-				return "Error retrieving weather data, please try again later";
+				return [
+						"type" => "message",
+						"text" => "Error retrieving weather data, please try again later"
+					];
 		}
 	}
 
@@ -156,7 +185,18 @@ class Command {
 				"rofl"
 			];
 
-		return $laughList[array_rand($laughList)];
+		return [
+				"type" 		=> "message",
+				"text" 		=> $laughList[array_rand($laughList)]
+			];
+	}
+
+	public function doge()
+	{
+		return [
+				"type" 		=> "sticker",
+				"sticker" 	=> Emoji::getSticker('doge')
+			];
 	}
 
 }
