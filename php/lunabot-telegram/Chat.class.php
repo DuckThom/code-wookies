@@ -3,8 +3,9 @@
 class Chat {
 
 	/**
-	 * Return the command
+	 * Return the command (UNUSED)
 	 * 
+	 * @var string
 	 * @return string
 	 */
 	public function getCommand($text)
@@ -15,8 +16,9 @@ class Chat {
 	}
 
 	/**
-	 * Return the arguments
+	 * Return the arguments (UNUSED)
 	 *
+	 * @var string
 	 * @return string
 	 */
 	public function getArgs($text)
@@ -33,7 +35,7 @@ class Chat {
 	 * Check if the response came from a timeout
 	 * if the "result" array is empty, then it was a timeout
 	 *
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function notTimeout($response)
 	{
@@ -44,9 +46,19 @@ class Chat {
 			return true;
 	}
 
+	/**
+	 * Send the message to telegram
+	 *
+	 * @var $message - string
+	 * @var $chatID  - int
+	 * @var $key 	 - string
+	 * @return boolean
+	 */
 	public function sendMessage($message, $chatID, $key)
 	{
 		$url 	= "https://api.telegram.org/bot" . $key . "/sendMessage";	  
+		
+ 		// POST data to send
 		$fields = array(
 						"chat_id" 	=> urlencode($chatID),
 				  		"text" 		=> urlencode($message)
@@ -61,11 +73,13 @@ class Chat {
 
 		$ch 	= curl_init();
 
+		// Set curl options
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_POST, count($fields));
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
+		// Cast the return value to boolean
 		$done  	= (bool) curl_exec($ch);
 
 		curl_close($ch);
@@ -74,8 +88,6 @@ class Chat {
 
 		return $done;
 	}
-
 }
-
 
 ?>
