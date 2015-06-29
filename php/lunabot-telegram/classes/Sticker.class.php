@@ -1,5 +1,12 @@
 <?php
 
+/*************************************
+ * Class Sticker
+ *
+ * This class will be used to parse the result array
+ *
+ * @var Telegram bot API Sticker array
+ *************************************/
 class Sticker {
 
 	private $file_id;

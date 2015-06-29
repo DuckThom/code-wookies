@@ -1,5 +1,12 @@
 <?php
 
+/*************************************
+ * Class PhotoSize
+ *
+ * This class will be used to parse the result array
+ *
+ * @var Telegram bot API PhotoSize array
+ *************************************/
 class PhotoSize {
 
 	private $file_id;
@@ -16,6 +23,8 @@ class PhotoSize {
 	}
 
 	/**
+	 * Image file ID
+	 *
 	 * @return string
 	 */
 	public function getId()
@@ -24,6 +33,8 @@ class PhotoSize {
 	}
 
 	/**
+	 * Image width
+	 *
 	 * @return int
 	 */
 	public function getWidth()
@@ -32,6 +43,8 @@ class PhotoSize {
 	}
 
 	/**
+	 * Image height
+	 *
 	 * @return int
 	 */
 	public function getHeight()
@@ -40,6 +53,8 @@ class PhotoSize {
 	}
 
 	/**
+	 * Image file size
+	 *
 	 * @return mixed
 	 */
 	public function getFileSize()

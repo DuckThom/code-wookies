@@ -1,5 +1,10 @@
 <?php
 
+/*************************************
+ * Class Send
+ *
+ * This class will be used to send messages
+ *************************************/
 class Send {
 
 	/**
@@ -10,14 +15,16 @@ class Send {
 	 * @var $key 	 - string
 	 * @return boolean
 	 */
-	public function message($data, $chatID)
+	public function sendMessage($chatID, $text, $disable_web_page_preview = false, $reply_to_message_id = NULL)
 	{
 		$url 	= "https://api.telegram.org/bot" . BOT_KEY . "/sendMessage";	  
 		
  		// POST data to send
 		$fields = array(
-						"chat_id" 	=> urlencode($chatID),
-				  		"text" 		=> urlencode($data["text"])
+						"chat_id" 					=> urlencode($chatID),
+				  		"text" 						=> urlencode($text),
+				  		"disable_web_page_preview"	=> (isset($disable_web_page_preview) ? urlencode($disable_web_page_preview)	: ''),
+				  		"reply_to_message_id"		=> (isset($reply_to_message_id) 	 ? urlencode($reply_to_message_id) 		: '')
 				  	);
 		$fields_string = '';
 
@@ -53,14 +60,15 @@ class Send {
 	 * @var $key 	 - string
 	 * @return boolean
 	 */
-	public function sticker($data, $chatID)
+	public function sendSticker($chatID, $sticker, $reply_to_message_id = NULL)
 	{
 		$url 	= "https://api.telegram.org/bot" . BOT_KEY . "/sendSticker";	  
 		
  		// POST data to send
 		$fields = array(
-						"chat_id" 	=> urlencode($chatID),
-				  		"sticker" 	=> urlencode($data["sticker"])
+						"chat_id" 				=> urlencode($chatID),
+				  		"sticker" 				=> urlencode($sticker),
+				  		"reply_to_message_id"	=> (isset($reply_to_message_id) ? urlencode($reply_to_message_id) : '')
 				  	);
 		$fields_string = '';
 

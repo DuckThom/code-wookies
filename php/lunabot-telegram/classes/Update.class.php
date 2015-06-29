@@ -1,5 +1,12 @@
 <?php 
 
+/*************************************
+ * Class Update
+ *
+ * This class will be used to parse the result array
+ *
+ * @var Telegram bot API Update array
+ *************************************/
 class Update {
 
 	private $update_id;
@@ -11,7 +18,12 @@ class Update {
 		$this->message	  = new Message($input['message']);
 	}
 
-	public function getUpdateId()
+	/**
+	 * Update ID
+	 *
+	 * @return int
+	 */
+	public function getId()
 	{
 		return $this->update_id;
 	}

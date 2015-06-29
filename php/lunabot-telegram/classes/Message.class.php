@@ -5,7 +5,7 @@
  *
  * This class will be used to parse the result array
  *
- * @var Telegram bot API Message object
+ * @var Telegram bot API Message array
  *************************************/
 class Message {
 

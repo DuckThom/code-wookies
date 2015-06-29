@@ -1,5 +1,12 @@
 <?php
 
+/*************************************
+ * Class GroupChat
+ *
+ * This class will be used to parse the result array
+ *
+ * @var Telegram bot API GroupChat array
+ *************************************/
 class GroupChat {
 
 	private $id;
@@ -12,6 +19,8 @@ class GroupChat {
 	}
 
 	/**
+	 * Group chat ID
+	 *
 	 * @return int
 	 */
 	public function getId()
@@ -20,9 +29,11 @@ class GroupChat {
 	}
 
 	/**
+	 * Group chat name
+	 *
 	 * @return string
 	 */
-	public function getGroupChatId()
+	public function getTitle()
 	{
 		return (string) $this->title;
 	}

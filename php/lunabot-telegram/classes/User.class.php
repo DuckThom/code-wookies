@@ -1,11 +1,11 @@
 <?php
 
 /*************************************
- * Class Message
+ * Class User
  *
  * This class will be used to parse the result array
  *
- * @var Telegram bot API User object
+ * @var Telegram bot API User array
  *************************************/
 class User {
 
@@ -23,6 +23,8 @@ class User {
 	}
 
 	/**
+	 * User ID
+	 *
 	 * @return int
 	 */
 	public function getId()
@@ -31,6 +33,8 @@ class User {
 	}
 
 	/**
+	 * User first name
+	 *
 	 * @return string
 	 */
 	public function getFirstName()
@@ -39,6 +43,8 @@ class User {
 	}
 
 	/**
+	 * User last name
+	 *
 	 * @return mixed
 	 */
 	public function getLastName()
@@ -47,6 +53,8 @@ class User {
 	}
 
 	/**
+	 * User username
+	 *
 	 * @return mixed
 	 */
 	public function getUsername()

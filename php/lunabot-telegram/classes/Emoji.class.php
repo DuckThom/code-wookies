@@ -1,12 +1,17 @@
 <?php
 
+/*************************************
+ * Class Emoji
+ *
+ * This class will be used to convert names/codes to Emoji's and stickers
+ *************************************/
 class Emoji {
 
 	/**
 	 * Return OpenWeatherMap icons as emoji
 	 *
 	 * @var string
-	 * @return mixed
+	 * @return string
 	 */
 	public function getOWMEmoji($code = '')
 	{
@@ -25,6 +30,12 @@ class Emoji {
 		return (array_key_exists($code, $emojiCodes) ? $emojiCodes[$code] : '');
 	}
 
+	/**
+	 * Return a sticker name as the sticker file_id
+	 *
+	 * @var string
+	 * @return string
+	 */
 	public function getSticker($name = '')
 	{
 		$stickerList = [
