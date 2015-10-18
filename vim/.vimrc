@@ -8,6 +8,7 @@ set guioptions-=r " Removes right hand scroll bar
 set go-=L " Removes left hand scroll bar
 set linespace=15
 
+set shortmess+=I		" disable welcome message
 set showmode                    " always show what mode we're currently editing in
 set nowrap                      " don't wrap lines
 set tags=tags
