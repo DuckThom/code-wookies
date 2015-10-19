@@ -87,7 +87,6 @@ let g:EasyMotion_leader_key = '<Leader>'
 let g:Powerline_symbols = 'fancy'
 set laststatus=2   " Always show the statusline
 set encoding=utf-8 " Necessary to show Unicode glyphs
-set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 
 autocmd cursorhold * set nohlsearch
 autocmd cursormoved * set hlsearch
