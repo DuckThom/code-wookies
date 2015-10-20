@@ -22,7 +22,7 @@ set mouse=a
 
 syntax on
 
-" Split window navigation
+" Split window navigation, doesn't work on OS X :/
 map <silent> <A-Up> :wincmd k<cr>
 map <silent> <A-Down> :wincmd j<cr>
 map <silent> <A-Left> :wincmd h<cr>
