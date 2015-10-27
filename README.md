@@ -1,3 +1,3 @@
 # Code wookies
 
-Code snippets of small scripts and unfinished projects
+Config files and code snippets of small scripts and unfinished projects
