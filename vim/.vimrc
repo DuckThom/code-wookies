@@ -22,11 +22,11 @@ set mouse=a
 
 syntax on
 
-" Split window navigation, doesn't work on OS X :/
-map <silent> <A-Up> :wincmd k<cr>
-map <silent> <A-Down> :wincmd j<cr>
-map <silent> <A-Left> :wincmd h<cr>
-map <silent> <A-Right> :wincmd l<cr>
+" Split window navigation
+map <silent> <ESC><Up> :wincmd k<cr>
+map <silent> <ESC><Down> :wincmd j<cr>
+map <silent> <ESC><Left> :wincmd h<cr>
+map <silent> <ESC><Right> :wincmd l<cr>
 
 " NERDTree config
 map <silent> <C-n> :NERDTreeToggle<cr>     " Open NERDTree with Ctrl+n
