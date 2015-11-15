@@ -1,0 +1,8 @@
+{
+  "manifest_version": 1,
+  "name": "Package name",
+  "version": "x.x.x",
+  "default_locale": "en",
+  "description": "Max 300 characters",
+  "author": "Package author"
+}
