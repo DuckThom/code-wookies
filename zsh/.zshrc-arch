@@ -99,8 +99,8 @@ alias update='pacman -Sy'
 alias upgrade='pacman -Syu'
 alias remove='pacman -Rdds'
 
-alias lunamoonfang="ssh luna@lunamoonfang.nl"
-alias wiringa="ssh wiringa@wiringa.nl"
+alias lunamoonfang="ssh luna@luna-vps.lunamoonfang.nl"
+alias wiringa="ssh wiringa@vps.wiringa.nl"
 
 aur() {
         git clone https://aur.archlinux.org/$1.git
