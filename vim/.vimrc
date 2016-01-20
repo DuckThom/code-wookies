@@ -19,22 +19,25 @@ set visualbell                             " Don't beep
 set noerrorbells                           " Don't beep
 set autowrite                              " Save on buffer switch
 set mouse=a
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set smarttab
+set expandtab
 
 syntax on
 
 " Split window navigation
-map <silent> <ESC><Up> :wincmd k<cr>
-map <silent> <ESC><Down> :wincmd j<cr>
-map <silent> <ESC><Left> :wincmd h<cr>
-map <silent> <ESC><Right> :wincmd l<cr>
+map <silent> j :tabprevious<cr>
+map <silent> k :tabnext<cr>
 
 " NERDTree config
-map <silent> <C-n> :NERDTreeToggle<cr>     " Open NERDTree with Ctrl+n
+" Bind Ctrl-n to NERDTree toggle
+map <Leader>n <plug>NERDTreeTabsToggle<CR>
 
-let g:NERDTreeShowHidden = 1               " Show hidden files in NERDTree
-
-autocmd VimEnter * NERDTreeToggle          " Open NERDTree by default
-autocmd VimEnter * wincmd p                " Don't autofocus on NERDTree
-
-" Close vim even if NERDTree is open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" Hide NERDTree help text 
+let g:NERDTreeMinimalUI = 1
+" Auto open NERDTree 
+let g:nerdtree_tabs_open_on_console_startup = 1
+" Always focus on the file tab by default
+let g:nerdtree_tabs_smart_startup_focus = 2
