@@ -1,9 +1,11 @@
 <?php namespace App\Helpers;
 
+if (!defined('LARAVEL_START'))
+    throw new \Exception("This helper class must be used with the Laravel 5 framework");
+
 use File;
 
-if (!defined('LARAVEL_START'))
-    throw new \Exception("This class must be used with the Laravel 5 framework");
+define("STORAGE_PATH", storage_path());
 
 class Downloader {
 
@@ -14,13 +16,25 @@ class Downloader {
     private $data;
 
     private $etag = "";
-    private $etag_array = [];
-    private $etag_path = "";
+    private $etag_array;
+    private $etag_path;
 
-    public function __construct($url)
+    private $save_path;
+
+    /**
+     * Constructor for the Downloader class
+     * 
+     * @param String $url Url for the file to be downloaded
+     * @param String $path Absolute path to save the file
+     * @param OutputInterface $bar The progress bar interface for a Artisan command
+     */
+    public function __construct($url, $path = (STORAGE_PATH . "/import"))
     {
         // Set the url
         $this->url = $url;
+
+        // Path to save the downloaded file
+        $this->save_path = rtrim($path, "/");
 
         // Set the path to the etags file
         $this->etag_path = storage_path() . "/import/etags";
@@ -33,12 +47,16 @@ class Downloader {
 
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($this->curl, CURLOPT_NOPROGRESS, false);
 
         // Check if the etags file exists
         if (File::exists($this->etag_path))
         {
+            // Temp storage for the unserialization
+            $file = unserialize(File::get($this->etag_path));
+ 
             // Set the etags array
-            $this->etag_array = unserialize(File::get($this->etag_path));
+            $this->etag_array = ($file === false ? [] : $file);
 
             // Find the etag for the current url
             if (array_key_exists($this->url, $this->etag_array))
@@ -103,11 +121,14 @@ class Downloader {
             // Return false if the download has not been executed
             return false;
         } else {
-            // Save the ETag (Should check if it exists first...)
-            $this->saveETags($this->headers['ETag']);
+            // Save the ETag
+            if (array_key_exists("ETag", $this->headers))
+            {
+                $this->saveETags($this->headers['ETag']);
+            }
 
             // Save the data to file
-            File::put(storage_path() . "/import/" . $name, $this->data);
+            File::put($this->save_path . "/" . $name, $this->data);
 
             // Download was succesful
             return true;
