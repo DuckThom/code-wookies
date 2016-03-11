@@ -1,5 +1,13 @@
 <?php namespace App\Helpers;
 
+/**
+ * Generate input fields conform the Twitter Bootstrap styling
+ * 
+ * Optional parameters for $params:
+ * - id:        Add the 'id' attribute with $name as value
+ * - required:  Add the 'required' attribute
+ */
+
 class FormHelper
 {
 
